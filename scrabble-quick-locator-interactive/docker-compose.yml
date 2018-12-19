@@ -5,13 +5,15 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: supersecretrootpassword
-      MYSQL_DATABASE: scrabble
       MYSQL_USER: main
+      MYSQL_DATABASE: scrabble
       MYSQL_PASSWORD: supersecretmainpassword
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
     ports:
       - "9906:3306"
   web:
-    image: php:7.2.2-apache
+    build: .
     container_name: php_web
     depends_on:
       - db

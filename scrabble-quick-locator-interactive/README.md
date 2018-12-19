@@ -13,7 +13,7 @@
 
 ## Challenges Specifics
 1. Simple SQLi in Login
-2. SQLi + union in WordSearch to leak Flag table
+2. SQLi + union in WordSearch to leak users table
 3. SQLi + blacklist to leak result field
 
 ## Solution

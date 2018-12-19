@@ -1,0 +1,1 @@
+flag{chincha_jinja_bad}

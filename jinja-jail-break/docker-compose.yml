@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    container_name: flask_web
+    ports:
+      - "8101:80"
+    stdin_open: true
+    tty: true

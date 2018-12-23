@@ -7,6 +7,8 @@ const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const moment = require('moment');
 
+const { scheduleVisit } = require('./visitor');
+
 const app = express();
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -274,6 +276,7 @@ app.get('/admin/', auth(SCOPE_ADMIN), (req, res) => {
 						<a href="/" class="btn btn-primary">Home</a>
 						<a href="/logout" class="btn btn-link">Logout</a>
 					</div>
+					<p>FLAG: ${process.env.MODE === 'two' ? 'flag{C0ntent_Type_Matt3r5}' : 'flag{E4sy_S4nitiz3_Input}'}</p>
 					<div class="list-group">
 						${posts.length === 0 ? `
 							<div class="list-group-item">
@@ -396,13 +399,21 @@ app.post('/new', auth(SCOPE_ADMIN, SCOPE_USER), (req, res) => {
 			</div>
 		</div>
 	`));
+	scheduleVisit(id, () => {
+		db.get('posts').find({ id: id }).assign({ approved: true, accepted: false }).write();
+	});
 });
 
 app.get('/post/:id', auth(SCOPE_ADMIN, SCOPE_USER), (req, res) => {
 	const post = db.get('posts').find({ id: req.params.id }).value();
 	if (!post) {
-		throw new Error('Post not found');
+		throw new Error('Post with id ' + req.params.id + ' not found');
 	}
+	let content = post.content;
+	if (process.env.MODE === 'two') {
+		content = content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+	}
+	content = content.replace(/\n/g, '<br>');
 	res.end(layout(`
 		<div class="container-fluid">
 			<div class="row justify-content-center my-3 my-md-5">
@@ -412,13 +423,33 @@ app.get('/post/:id', auth(SCOPE_ADMIN, SCOPE_USER), (req, res) => {
 						<a href="#" onclick="window.history.back()" class="btn btn-primary">Back</a>
 						<a href="/logout" class="btn btn-link">Logout</a>
 					</div>
-					<p>${post.content.replace('\n', '<br>')}</p>
+					<p>${content}</p>
+				</div>
+			</div>
+		</div>
+	`));
+}, (err, req, res, next) => {
+	res.end(layout(`
+		<div class="container-fluid">
+			<div class="row justify-content-center my-3 my-md-5">
+				<div class="col-12 col-md-6">
+					<div class="d-flex w-100 align-items-center">
+						<h1 class="my-4 mr-auto"></h1>
+						<a href="#" onclick="window.history.back()" class="btn btn-primary">Back</a>
+						<a href="/logout" class="btn btn-link">Logout</a>
+					</div>
+					${err ? `
+						<div class="alert alert-danger" role="alert">
+							${err.message}
+						</div>
+					` : ''}
 				</div>
 			</div>
 		</div>
 	`));
 });
 
+/*
 app.post('/post/:id/approve', auth(SCOPE_ADMIN), (req, res) => {
 	const { accepted } = req.body;
 	const post = db.get('posts').find({ id: req.params.id }).value();
@@ -428,6 +459,7 @@ app.post('/post/:id/approve', auth(SCOPE_ADMIN), (req, res) => {
 	db.get('posts').find({ id: req.params.id }).assign({ approved: true, accepted: !!accepted }).write();
 	res.redirect('/admin/');
 });
+*/
 
 
 app.listen(8080);

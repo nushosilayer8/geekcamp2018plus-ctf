@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const db = low(new FileSync('db.json'));
 db.defaults({ posts: [
-	{ id: '0', author: 'admin', timestamp: Date.now(), title: "Hello, Geekcamp 2018!", content: "Hey there! Hope you enjoy this challenge.\nNotice: I'm very strict today and will reject most posts.", approved: true, accepted: true },
+	{ id: '0', author: 'admin', timestamp: Date.now(), title: "Hello, Geekcamp 2018!", content: "Hey there! Hope you enjoy this challenge.\nNotice: I'm very strict today and will reject most posts. I also love links to cat pictures", approved: true, accepted: true },
 ], users: [] }).write();
 
 const secret = process.env.JWT_SECRET;

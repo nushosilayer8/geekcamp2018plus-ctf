@@ -17,7 +17,7 @@ def index_template():
 
 @app.route("/src")
 def src():
-    return escape(open(__file__).read())
+    return "<pre>" + escape(open(__file__).read()) + "</pre>"
 
 @app.route("/jail/<path:template>")
 def blacklist_template(template):

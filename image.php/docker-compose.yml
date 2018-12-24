@@ -12,7 +12,6 @@ services:
       - http_network
     volumes:
       - ./flag.txt:/flag.txt:ro
-      - ./src:/var/www/html:ro
     labels:
       - "traefik.enable=true"
       - "traefik.frontend.rule=Host:4.ctf.makerforce.io"

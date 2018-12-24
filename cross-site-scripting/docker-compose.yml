@@ -7,12 +7,9 @@ networks:
 services:
   one:
     build: .
-    command: node server.js
     restart: always
     networks:
       - http_network
-    volumes:
-      - .:/src:ro
     environment:
       - MODE=one
       - JWT_SECRET=1ofcJsY7azgp5H9FAndYhfYs
@@ -24,12 +21,9 @@ services:
       - "traefik.docker.network=http_network"
   two:
     build: .
-    command: node server.js
     restart: always
     networks:
       - http_network
-    volumes:
-      - .:/src:ro
     environment:
       - MODE=two
       - JWT_SECRET=1FZmo4oULzU2rSzGqjTXH9uQ

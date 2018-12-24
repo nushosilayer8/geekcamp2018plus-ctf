@@ -25,8 +25,6 @@ services:
     networks:
       - int
       - http_network
-    volumes:
-      - ./src:/var/www/html:ro
     labels:
       - "traefik.enable=true"
       - "traefik.frontend.rule=Host:1.ctf.makerforce.io"

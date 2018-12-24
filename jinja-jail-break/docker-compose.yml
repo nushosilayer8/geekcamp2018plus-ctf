@@ -7,12 +7,9 @@ networks:
 services:
   web:
     build: .
-    command: python app.py
     restart: always
     networks:
       - http_network
-    volumes:
-      - ./src:/app:ro
     labels:
       - "traefik.enable=true"
       - "traefik.frontend.rule=Host:5.ctf.makerforce.io"

@@ -276,7 +276,7 @@ app.get('/admin/', auth(SCOPE_ADMIN), (req, res) => {
 						<a href="/" class="btn btn-primary">Home</a>
 						<a href="/logout" class="btn btn-link">Logout</a>
 					</div>
-					<p>FLAG: ${process.env.MODE === 'two' ? 'flag{C0ntent_Type_Matt3r5}' : 'flag{E4sy_S4nitiz3_Input}'}</p>
+					<p>FLAG: ${process.env.MODE === 'two' ? 'flag{XSS_Within_Links}' : 'flag{E4sy_S4nitiz3_Input}'}</p>
 					<div class="list-group">
 						${posts.length === 0 ? `
 							<div class="list-group-item">

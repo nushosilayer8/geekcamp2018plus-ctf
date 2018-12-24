@@ -30,7 +30,7 @@ const auth = (...scopes) => {
 		}
 		const payload = jwt.verify(token, secret, {
 			algorithms: ['HS256'],
-			maxAge: '10h',
+			maxAge: '24h',
 		});
 		if (scopes.indexOf(payload.scope) < 0) {
 			throw new Error('Scope does not match');

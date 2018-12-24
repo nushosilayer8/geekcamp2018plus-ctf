@@ -3,10 +3,17 @@ version: '3'
 services:
   web:
     build: .
-    container_name: flask_web
-    ports:
-      - "8101:80"
-    stdin_open: true
-    tty: true
-    read_only: true
+    command: python app.py
     restart: always
+    networks:
+      - http_network
+    volumes:
+      - ./src:/app:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:5.ctf.makerforce.io"
+      - "traefik.port=80"
+      - "traefik.docker.network=http_network"
+
+
+# vim: noai:ts=2:sw=2

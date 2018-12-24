@@ -3,6 +3,7 @@ version: '3'
 services:
   one:
     build: .
+    command: node server.js
     restart: always
     networks:
       - http_network
@@ -19,6 +20,7 @@ services:
       - "traefik.docker.network=http_network"
   two:
     build: .
+    command: node server.js
     restart: always
     networks:
       - http_network

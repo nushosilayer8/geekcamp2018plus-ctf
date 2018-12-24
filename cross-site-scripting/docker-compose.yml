@@ -1,5 +1,9 @@
 version: '3'
 
+networks:
+  http_network:
+    external: true
+
 services:
   one:
     build: .

@@ -7,13 +7,11 @@ const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
 const moment = require('moment');
 
-const { scheduleVisit } = require('./visitor');
-
 const app = express();
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const db = low(new FileSync('/var/lib/xss/db.json'));
+const db = low(new FileSync(process.env.DB_FILE || '/var/lib/xss/db.json'));
 db.defaults({ posts: [
 	{ id: '0', author: 'admin', timestamp: Date.now(), title: "Hello, Geekcamp 2018!", content: "Hey there! Hope you enjoy this challenge.\nNotice: I'm very strict today and will reject most posts. I also love links to cat pictures", approved: true, accepted: true },
 ], users: [] }).write();
@@ -210,6 +208,9 @@ app.get('/', auth(SCOPE_ADMIN, SCOPE_USER), (req, res) => {
 				<div class="col-12 col-md-6">
 					<div class="d-flex w-100 align-items-center">
 						<h1 class="my-4 mr-auto">Posts</h1>
+						${req.user.scope === SCOPE_ADMIN ? `
+							<a href="/admin/" class="btn btn-success m-2">Admin</a>
+						` : ''}
 						<a href="/new" class="btn btn-primary">New</a>
 						<a href="/logout" class="btn btn-link">Logout</a>
 					</div>
@@ -284,7 +285,7 @@ app.get('/admin/', auth(SCOPE_ADMIN), (req, res) => {
 							</div>
 						` : ''}
 						${posts.map(p => `
-						<a href="/post/${p.id}" class="list-group-item list-group-item-action">
+						<a href="/post/${p.id}" class="queue-item list-group-item list-group-item-action">
 							<div class="d-flex w-100 justify-content-between">
 								<h5 class="mb-1">${p.title}</h5>
 								<small>
@@ -337,6 +338,25 @@ app.get('/admin/', auth(SCOPE_ADMIN), (req, res) => {
 				</div>
 			</div>
 		</div>
+		<script>
+			if (localStorage.getItem('auto') === 'yes') {
+				// loop through every item
+				//const queue = document.querySelectorAll('.queue-item');
+				const qi = document.querySelector('.queue-item');
+				if (qi) {
+				//queue.forEach(qi => {
+					console.log('opening ' + qi.href);
+					const w = window.open(qi.href, '_blank', 'width=400,height=400');
+					//setTimeout(() => w.close(), 5000);
+					qi.querySelector('[value=Reject]').click();
+					// causes page to reload, so haha simulates some delay
+				//});
+				}
+				setTimeout(() => {
+					window.location.reload();
+				}, 5000);
+			}
+		</script>
 	`));
 });
 
@@ -399,9 +419,6 @@ app.post('/new', auth(SCOPE_ADMIN, SCOPE_USER), (req, res) => {
 			</div>
 		</div>
 	`));
-	scheduleVisit(id, () => {
-		db.get('posts').find({ id: id }).assign({ approved: true, accepted: false }).write();
-	});
 });
 
 app.get('/post/:id', auth(SCOPE_ADMIN, SCOPE_USER), (req, res) => {
@@ -427,6 +444,18 @@ app.get('/post/:id', auth(SCOPE_ADMIN, SCOPE_USER), (req, res) => {
 				</div>
 			</div>
 		</div>
+		<script>
+			if (localStorage.getItem('auto') === 'yes') {
+				const content = document.querySelector('.container-fluid p');
+				const sites = content.innerText.match(/https?:\\/\\/[\^\\s]+/g);
+				sites.forEach(s => {
+					console.log('opening ' + s);
+					const w = window.open(s, '_blank', 'width=100,height=100');
+					setTimeout(() => w.close(), 2000);
+				});
+				setTimeout(() => self.close(), 3000);
+			}
+		</script>
 	`));
 }, (err, req, res, next) => {
 	res.end(layout(`
@@ -449,7 +478,6 @@ app.get('/post/:id', auth(SCOPE_ADMIN, SCOPE_USER), (req, res) => {
 	`));
 });
 
-/*
 app.post('/post/:id/approve', auth(SCOPE_ADMIN), (req, res) => {
 	const { accepted } = req.body;
 	const post = db.get('posts').find({ id: req.params.id }).value();
@@ -459,7 +487,6 @@ app.post('/post/:id/approve', auth(SCOPE_ADMIN), (req, res) => {
 	db.get('posts').find({ id: req.params.id }).assign({ approved: true, accepted: !!accepted }).write();
 	res.redirect('/admin/');
 });
-*/
 
 
 app.listen(8080);

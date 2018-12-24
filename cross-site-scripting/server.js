@@ -13,7 +13,7 @@ const app = express();
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const db = low(new FileSync('db.json'));
+const db = low(new FileSync('/var/lib/xss/db.json'));
 db.defaults({ posts: [
 	{ id: '0', author: 'admin', timestamp: Date.now(), title: "Hello, Geekcamp 2018!", content: "Hey there! Hope you enjoy this challenge.\nNotice: I'm very strict today and will reject most posts. I also love links to cat pictures", approved: true, accepted: true },
 ], users: [] }).write();

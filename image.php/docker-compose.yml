@@ -1,0 +1,23 @@
+version: '3'
+
+networks:
+  http_network:
+    external: true
+
+services:
+  web:
+    build: .
+    restart: always
+    networks:
+      - http_network
+    volumes:
+      - ./flag.txt:/flag.txt:ro
+      - ./src:/var/www/html:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:4.ctf.makerforce.io"
+      - "traefik.port=80"
+      - "traefik.docker.network=http_network"
+
+
+# vim: noai:ts=2:sw=2

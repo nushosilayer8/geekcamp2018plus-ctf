@@ -1,8 +1,17 @@
 version: '3'
 
+networks:
+  http_network:
+    external: true
+  int:
+    external: false
+
 services:
   db:
     image: mysql:5.7
+    restart: always
+    networks:
+      - int
     environment:
       MYSQL_ROOT_PASSWORD: supersecretrootpassword
       MYSQL_USER: main
@@ -10,16 +19,19 @@ services:
       MYSQL_PASSWORD: supersecretmainpassword
     volumes:
       - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
-    ports:
-      - "9906:3306"
   web:
     build: .
-    container_name: php_web
-    depends_on:
-      - db
+    restart: always
+    networks:
+      - int
+      - http_network
     volumes:
-      - ./src/:/var/www/html/
-    ports:
-      - "8100:80"
-    stdin_open: true
-    tty: true
+      - ./src:/var/www/html:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:1.ctf.makerforce.io"
+      - "traefik.port=80"
+      - "traefik.docker.network=http_network"
+
+
+# vim: noai:ts=2:sw=2

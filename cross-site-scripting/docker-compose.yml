@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  one:
+    build: .
+    restart: always
+    networks:
+      - http_network
+    volumes:
+      - .:/src:ro
+    environment:
+      - MODE=one
+      - JWT_SECRET=1ofcJsY7azgp5H9FAndYhfYs
+      - ADMIN_PASSWORD=z6T6NVVP5NFw86QBwbgmTOmB
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:2.ctf.makerforce.io"
+      - "traefik.port=8080"
+      - "traefik.docker.network=http_network"
+  two:
+    build: .
+    restart: always
+    networks:
+      - http_network
+    volumes:
+      - .:/src:ro
+    environment:
+      - MODE=two
+      - JWT_SECRET=1FZmo4oULzU2rSzGqjTXH9uQ
+      - ADMIN_PASSWORD=IFbMho4ogd7lSmeMsFrVyz2D
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:3.ctf.makerforce.io"
+      - "traefik.port=8080"
+      - "traefik.docker.network=http_network"
+
+
+# vim: noai:ts=2:sw=2

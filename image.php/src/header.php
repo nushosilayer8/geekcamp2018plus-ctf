@@ -21,7 +21,8 @@
 					<a href="#"><img src="/img/file compress.png"></a>
 					<a href="#"><img src="/img/convert to ico.png"></a>
 					<a href="#"><img src="/img/convert to gif.png"></a>
-					<a href="#"><img src="/img/convert to pdf.png"></a>
+					<a href="#"><img src="/img/image cropper.png"></a>
+					<a href="http://owl.phy.queensu.ca/~phil/exiftool/"><img src="/img/exif editor.png"></a>
 					<img src="/img/spacer.png">
 					<a href="#"><img src="/img/about.png"></a>
 					<a href="#"><img src="/img/contact us.png"></a>

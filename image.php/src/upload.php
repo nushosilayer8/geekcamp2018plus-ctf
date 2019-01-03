@@ -24,7 +24,7 @@ if ($check == false) {
 }
 
 // no remote exec here because $file_tmp_name is safe
-$file_tmp_result_name = $file_tmp_name.".resized.jpg";
+$file_tmp_result_name = $file_tmp_name."-resized";
 exec("gm convert ".$file_tmp_name." -resize 128x128 ".$file_tmp_result_name);
 
 // no overwriting files here because basename ONLY strips paths

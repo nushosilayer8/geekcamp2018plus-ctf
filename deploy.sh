@@ -24,6 +24,10 @@ for g in $groups; do
 			sudo docker-compose down
 			sudo docker-compose up -d
 			;;
+		help|*)
+			echo "Supported operations: start, stop, reset, build, help"
+			exit 1
+			;;
 	esac
 	cd ..
 done

@@ -1,4 +1,4 @@
-// gcc -fno-stack-protector -no-pie -o vssh2 vssh2.c
+// gcc -fno-stack-protector -no-pie -o vssh1 vssh1.c
 
 #include <stdio.h>
 #include <stdlib.h>

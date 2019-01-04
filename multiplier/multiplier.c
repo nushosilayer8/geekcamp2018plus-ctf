@@ -1,4 +1,4 @@
-// gcc -no-pie -o multiplier multiplier.c 
+// gcc -no-pie -o multiplier multiplier.c
 
 #include <stdio.h>
 #include <stdlib.h>

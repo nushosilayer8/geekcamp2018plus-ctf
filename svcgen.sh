@@ -83,6 +83,8 @@ RUN useradd -m ctf
 
 # Challenge service
 COPY xinetd.conf /etc/xinetd.d/$NAME
+RUN echo '#!/bin/sh\\ncd /home/ctf && "\$@"' > /bin/run
+RUN chmod +x /bin/run
 
 # Challenge files
 COPY --from=build $BUILD_OUTPUT /home/ctf/$BUILD_OUTPUT
@@ -106,7 +108,8 @@ service $NAME
 	type = UNLISTED
 	bind = 0.0.0.0
 	port = 31337
-	server = /home/ctf/$BUILD_OUTPUT
+	server = /bin/run
+	server_args = /home/ctf/$BUILD_OUTPUT
 	#per_source	= 10 # the maximum instances of this service per source IP address
 	#rlimit_cpu	= 20 # the maximum number of CPU seconds that the service may use
 	#rlimit_as  = 1024M # the Address Space resource limit for the service

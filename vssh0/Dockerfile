@@ -21,6 +21,8 @@ RUN useradd -m ctf
 
 # Challenge service
 COPY xinetd.conf /etc/xinetd.d/vssh0
+RUN echo '#!/bin/sh\ncd /home/ctf && "$@"' > /bin/run
+RUN chmod +x /bin/run
 
 # Challenge files
 COPY --from=build vssh0 /home/ctf/vssh0

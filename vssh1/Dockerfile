@@ -6,7 +6,7 @@ RUN apt-get install -y \
 # Add any build dependencies above
 
 COPY vssh1.c ./
-RUN gcc -fno-stack-protector -no-pie -o vssh2 vssh2.c
+RUN gcc -fno-stack-protector -no-pie -o vssh1 vssh1.c
 
 
 FROM ubuntu:xenial
@@ -25,7 +25,7 @@ RUN echo '#!/bin/sh\ncd /home/ctf && "$@"' > /bin/run
 RUN chmod +x /bin/run
 
 # Challenge files
-COPY --from=build vssh2 /home/ctf/vssh2
+COPY --from=build vssh1 /home/ctf/vssh1
 COPY flag /home/ctf/
 
 # Permissions

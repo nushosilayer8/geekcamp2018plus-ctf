@@ -3,8 +3,6 @@ services:
   undebuggable:
     build:
       context: .
-    working_dir: /home/ctf
-    ports:
-      - "4486:31337" # exposed:local
-    entrypoint: /etc/run_xinetd.sh
     read_only: true
+    ports:
+      - "4011:31337" # exposed:local

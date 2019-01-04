@@ -29,7 +29,16 @@ int calculate_product(int numbers[], int index) {
     return result;
 }
 
+int setup(){
+    // not important, just to make sure everything is printed without needing to flush stdin/stdout everytime
+    setvbuf(stdin, 0, 2, 0);
+    setvbuf(stdout, 0, 2, 0);
+    return 1; 
+}
+
 int main() {
+    setup();
+
     int index;
     int numbers[100];
 

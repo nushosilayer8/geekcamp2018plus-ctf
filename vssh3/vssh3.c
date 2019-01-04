@@ -106,7 +106,16 @@ void delete_user() {
     printf("Deleted user %d\n.", num);
 }
 
+int setup(){
+    // not important, just to make sure everything is printed without needing to flush stdin/stdout everytime
+    setvbuf(stdin, 0, 2, 0);
+    setvbuf(stdout, 0, 2, 0);
+    return 1; 
+}
+
 int main(int argc, char **argv) {
+    setup();
+
     char password[64];
 
     print_welcome();

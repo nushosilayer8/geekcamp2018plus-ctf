@@ -25,7 +25,7 @@ RUN echo '#!/bin/sh\ncd /home/ctf && "$@"' > /bin/run
 RUN chmod +x /bin/run
 
 # Challenge files
-COPY --from=build vssh0 /home/ctf/vssh0
+COPY --from=build vssh0 /home/ctf/vssh0
 COPY flag /home/ctf/
 
 # Permissions

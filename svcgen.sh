@@ -27,7 +27,7 @@ if [[ -z "$SOURCES" ]]; then
 	exit 1
 fi
 
-BUILD_COMMAND="$(grep -hE '/[/*][ ]*g(cc|\+\+) ' $SOURCES | head -n 1 | sed -E 's/ *(\/\/|\/\*|\*\/) *//g')"
+BUILD_COMMAND="$(grep -hE '/[/*][ ]*g(cc|\+\+) ' $SOURCES | head -n 1 | sed -E 's/ *(\/\/|\/\*|\*\/) *//g' | sed -E 's///g')"
 if [[ -z "$BUILD_COMMAND" ]]; then
 	echo "No build command found in source. Using default"
 	BUILD_COMMAND="gcc *.c"

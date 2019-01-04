@@ -26,10 +26,10 @@ for g in $groups; do
 			;;
 		extract)
 			echo "Extracting from $g..."
-			sudo docker cp $(sudo docker-compose ps -q):/home/ctf/$g ..
+			sudo docker cp $(sudo docker-compose ps -q | head -n 1):/home/ctf/$g .
 			;;
 		help|*)
-			echo "Supported operations: start, stop, reset, build, help"
+			echo "Supported operations: start, stop, reset, build, extract, help"
 			exit 1
 			;;
 	esac

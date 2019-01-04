@@ -24,6 +24,10 @@ for g in $groups; do
 			sudo docker-compose down
 			sudo docker-compose up -d
 			;;
+		extract)
+			echo "Extracting from $g..."
+			sudo docker cp $(sudo docker-compose ps -q):/home/ctf/$g ..
+			;;
 		help|*)
 			echo "Supported operations: start, stop, reset, build, help"
 			exit 1

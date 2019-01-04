@@ -1,6 +1,6 @@
 #!/bin/sh
 
-groups="cross-site-scripting image.php jinja-jail-break scrabble-quick-locator-interactive"
+groups="cross-site-scripting image.php jinja-jail-break scrabble-quick-locator-interactive multiplier vssh0 vssh1 vssh2 vssh3"
 
 for g in $groups; do
 	cd $g/

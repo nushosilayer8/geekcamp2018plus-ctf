@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  vssh2:
+    build:
+      context: .
+    read_only: true
+    ports:
+    - 4697:31337
